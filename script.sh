@@ -12,20 +12,15 @@ show_usage() {
 
 show_readme() {
     printf "
-README
-
-# Quick Start:
-##
+## Quick Start
 "
-}
-
-show_help() {
-    show_usage
-    show_readme
 }
 
 case $1 in
     "help") # first-level-arg;
-        show_help
+        show_usage
+        ;;
+    "readime") # first-level-arg;
+        show_readme
         ;;
 esac
