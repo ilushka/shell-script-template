@@ -20,7 +20,7 @@ case $1 in
     "help") # first-level-arg;
         show_usage
         ;;
-    "readime") # first-level-arg;
+    "readme") # first-level-arg;
         show_readme
         ;;
 esac
