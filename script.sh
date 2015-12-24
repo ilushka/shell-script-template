@@ -23,4 +23,7 @@ case $1 in
     "readme") # first-level-arg;
         show_readme
         ;;
+    *)
+        show_usage
+        ;;
 esac
