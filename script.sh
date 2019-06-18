@@ -8,12 +8,12 @@ function show_usage() {
     case $1 in
         "second")
             printf "Usage: ${BIN_NAME} second <"
-            cat ${BIN_NAME} | awk 'BEGIN { FS = "\""; ORS = "|"; } /\"[a-z]+\"\) # second-level-arg/ { print $2; }'
+            cat ${BIN_NAME} | awk 'BEGIN { FS = "\""; ORS = "|"; } /\"[a-z\-]+\"\) # second-level-arg/ { print $2; }'
             printf "\b>\n"  # \b (backspace) is to hide last separator
             ;;
         *)
             printf "Usage: ${BIN_NAME} <"
-            cat ${BIN_NAME} | awk 'BEGIN { FS = "\""; ORS = "|"; } /\"[a-z]+\"\) # first-level-arg/ { print $2; }'
+            cat ${BIN_NAME} | awk 'BEGIN { FS = "\""; ORS = "|"; } /\"[a-z\-]+\"\) # first-level-arg/ { print $2; }'
             printf "\b>\n"
             ;;
     esac
