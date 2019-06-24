@@ -20,11 +20,11 @@ function get_double_cmd_usage() {
 }
 
 function get_single_cmd_help() {
-    awk '/function '"$(echo "${1}" | tr '-' '_')"'_command()/{f=1; next;} /# arg-doc-end;/{f=0} f' ${BIN} | sed 's/^[[:space:]]*# //g'
+    awk '/function '"$(echo "${1}" | tr '-' '_')"'_command()/{f=1; next;} /# arg-doc-end;/{f=0} f' ${BIN} | sed 's/^[[:space:]]*#[[:space:]]*//g'
 }
 
 function get_double_cmd_help() {
-    awk '/function '"$(echo "${1}_${2}" | tr '-' '_')"'_command()/{f=1; next;} /# arg-doc-end;/{f=0} f' ${BIN} | sed 's/^[[:space:]]*# //g'
+    awk '/function '"$(echo "${1}_${2}" | tr '-' '_')"'_command()/{f=1; next;} /# arg-doc-end;/{f=0} f' ${BIN} | sed 's/^[[:space:]]*#[[:space:]]*//g'
 }
 
 function show_usage() {
@@ -36,48 +36,75 @@ function show_usage() {
         if [[ ! -z "$dbl_usage" ]]; then
             printf "Usage: ${BIN} ${1} <${dbl_usage}\b>\n"    # \b (backspace) is to hide last separator
         else
-            printf "Usage: ${BIN} ${1}\n$(get_single_cmd_help $1)\n"
+            printf "Usage: ${BIN} ${1} $(get_single_cmd_help $1)\n"
         fi
     elif [[ $arg_count -eq 2 ]]; then
-        printf "Usage: ${BIN} ${1} ${2}\n$(get_double_cmd_help $1 $2)\n"
+        printf "Usage: ${BIN} ${1} ${2} $(get_double_cmd_help $1 $2)\n"
     fi
+    exit 1
 }
 
 # COMMAND FUNCTIONS
 ################################################################################
 
 function single_command() {
+    # <a> <b> <c>
     # This is a single command.
-    # It is not part of a subgroup of commands.
+    # It is not part of any subgroup of commands.
+    # <a> - Integer
+    # <b> - Integer
+    # <c> - Integer
     # arg-doc-end;
-    printf "Single command: single\n"
+
+    a=$1
+    [[ "_$a" = "_" ]] && printf "Error: missing <a> parameter.\n\n" && show_usage "single" 
+    shift
+    b=$1
+    [[ "_$b" = "_" ]] && printf "Error: missing <b> parameter.\n\n" && show_usage "single" 
+    shift
+    c=$1
+    [[ "_$c" = "_" ]] && printf "Error: missing <c> parameter.\n\n" && show_usage "single" 
+    printf "single command: a = %d, b = %d, c = %d\n" $a $b $c
 }
 
 function double_cmd1_foo_command() {
+    # <xx>
     # This is a double command.
-    # It is part of a double-cmd1 subgroup of commands.
+    # It is part of double-cmd1 subgroup of commands.
+    # <xx> - Integer
     # arg-doc-end;
-    printf "Double command: double-cmd1 foo\n"
+
+    xx=$1
+    [[ "_$xx" = "_" ]] && printf "Error: missing <xx> parameter.\n\n" && show_usage "double-cmd1" "foo" 
+    shift
+    printf "double-cmd1 foo command: xx = %d\n" $xx
 }
 
 function double_cmd1_bar_command() {
+    #
     # This is a double command.
-    # It is part of a double-cmd1 subgroup of commands.
+    # It takes no parameters
+    # It is part of double-cmd1 subgroup of commands.
     # arg-doc-end;
+
     printf "Double command: double-cmd1 bar\n"
 }
 
 function double_cmd2_baz_command() {
+    #
     # This is a double command.
-    # It is part of a double-cmd2 subgroup of commands.
+    # It takes no parameters
+    # It is part of double-cmd2 subgroup of commands.
     # arg-doc-end;
+
     printf "Double command: double-cmd2 baz\n"
 }
 
 function double_cmd2_qux_command() {
     # This is a double command.
-    # It is part of a double-cmd2 subgroup of commands.
+    # It is part of double-cmd2 subgroup of commands.
     # arg-doc-end;
+
     printf "Double command: double-cmd2 qux\n"
 }
 
