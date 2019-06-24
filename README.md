@@ -2,7 +2,7 @@
 
 This is a template that I use (mostly) for creating build scripts.
 
-It supports two types of commands: *single* and *grouped*. Single commands look like `./script.sh command` and grouped commands look like `./script.sh group command`. 
+It supports two types of commands: *single* and *grouped*. Single commands look like: `./build.sh command` and grouped commands look like: `./build.sh group command`. 
 
 The script should work on a purely POSIX shell, but it has not been rigorously tested.
 
@@ -10,7 +10,7 @@ The script should work on a purely POSIX shell, but it has not been rigorously t
 
 To create a new script:
 
-* Edit the switch case at the bottom of the file. Each case is either a *single* command or a *group*. Add `# cmd-lvl1;` comment to each case. Do not modify the `"help")` and the `*)` case.
+* Edit the switch case at the bottom of the file. Each case is either a *single* command or a *group*. Add `# cmd-lvl1;` comment to each case. Do not modify the `"help")` and the default `*)` case.
 
 ```bash
 case $1 in
@@ -29,7 +29,7 @@ case $1 in
 esac
 ```
 
-* If you have *grouped* commands create function with a switch case for each group. Add commands to for the group to the switch case and add one default case `*)` that calls `show_usage "group_name"`. Add `# cmd-lvl2; group_name` comment to each case, except for the default case.
+* If you have *grouped* commands create a function with a switch case for each group. Add commands for the group to the switch case and add one default case `*)` that calls `show_usage "group_name"`. Add `# cmd-lvl2; group_name` comment to each case, except for the default case.
 
 ```bash
 group_command() {
@@ -44,11 +44,11 @@ group_command() {
 }
 ```
 
-* Create a function for each command, single or grouped. Function name should be of format: `[group_name_]some_command_command()`, optional group name and and an underscore (`_`) + command name + `_command` suffix. Dashes (`-`) should be replaced by underscores (`_`).
+* Create a function for each command, single or grouped. Function name should be of format: `[group_name_]some_command_command()`, optional group name and an underscore (`_`) + command name + `_command` suffix. Dashes (`-`) should be replaced by underscores (`_`).
 
-`./build.sh some-group some-command` &rarr; `some_group_some_command_command()`
+Example: `./build.sh some-group some-command` &rarr; `some_group_some_command_command()`
 
-* Add multi-line comments right after the command's function definition. Add `# cmd-doc-end;` as the last comment. This will be the body of text for the help for that command. First line of the help text should list all arguments for that command, or stay blank.
+* Add multi-line comments right after the command's function definition. Add `# cmd-doc-end;` as the last comment. This will be the body of text for the help for that command. First line of the help text should list all the arguments for that command, or stay blank.
 
 ```bash
 group_another_command_command() {
@@ -62,7 +62,5 @@ group_another_command_command() {
 }
 ```
 
-`single_command()` or `group1_foo_command` have some basic command verification examples.
-
-# TODO
+`single_command()` or `group1_foo_command` have some basic command argument verification examples.
 
