@@ -2,7 +2,7 @@
 
 This is a template that I use (mostly) for creating build scripts.
 
-It supports two types of **commands**: single and grouped. Single commands look like `./script.sh command` and grouped commands look like `./script.sh group command`. 
+It supports two types of commands: *single* and *grouped*. Single commands look like `./script.sh command` and grouped commands look like `./script.sh group command`. 
 
 The script should work on a purely POSIX shell, but it has not been rigorously tested.
 
@@ -46,8 +46,7 @@ group_command() {
 
 * Create a function for each command, single or grouped. Function name should be of format: `[group_name_]some_command_command()`, optional group name and and an underscore (`_`) + command name + `_command` suffix. Dashes (`-`) should be replaced by underscores (`_`).
 
-Command: `./build.sh some-group some-command` 
-Function: `some_group_some_command_command()`
+`./build.sh some-group some-command` &rarr; `some_group_some_command_command()`
 
 * Add multi-line comments right after the command's function definition. Add `# cmd-doc-end;` as the last comment. This will be the body of text for the help for that command. First line of the help text should list all arguments for that command, or stay blank.
 
