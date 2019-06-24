@@ -12,11 +12,11 @@ function count_words() {
 }
 
 function get_single_cmd_usage() {
-    sed -n 's/[[:space:]]*\"\([a-z0-9-]*\)\") # first-level-arg;/\1/p' ${BIN} | tr '\n' '|'
+    sed -n 's/[[:space:]]*\"\([a-z0-9-]*\)\") # first-level-arg;/\1/p' ${BIN} | tr '\n' '|' | sed 's/|$//g'
 }
 
 function get_double_cmd_usage() {
-    sed -n 's/[[:space:]]*\"\([a-z0-9-]*\)\") # second-level-arg; '"${1}"'/\1/p' ${BIN} | tr '\n' '|'
+    sed -n 's/[[:space:]]*\"\([a-z0-9-]*\)\") # second-level-arg; '"${1}"'/\1/p' ${BIN} | tr '\n' '|' | sed 's/|$//g'
 }
 
 function get_single_cmd_help() {
@@ -30,11 +30,11 @@ function get_double_cmd_help() {
 function show_usage() {
     arg_count=$(count_words $@)
     if [[ $arg_count -eq 0 ]]; then
-        printf "Usage: ${BIN} $(get_single_cmd_usage) \b>\n"  # \b (backspace) is to hide last separator
+        printf "Usage: ${BIN} <$(get_single_cmd_usage)>\n"
     elif [[ $arg_count -eq 1 ]]; then
         dbl_usage=$(get_double_cmd_usage $1)
         if [[ ! -z "$dbl_usage" ]]; then
-            printf "Usage: ${BIN} ${1} <${dbl_usage}\b>\n"    # \b (backspace) is to hide last separator
+            printf "Usage: ${BIN} ${1} <${dbl_usage}>\n"
         else
             printf "Usage: ${BIN} ${1} $(get_single_cmd_help $1)\n"
         fi
@@ -83,21 +83,21 @@ function double_cmd1_foo_command() {
 function double_cmd1_bar_command() {
     #
     # This is a double command.
-    # It takes no parameters
+    # It takes no parameters.
     # It is part of double-cmd1 subgroup of commands.
     # arg-doc-end;
 
-    printf "Double command: double-cmd1 bar\n"
+    printf "double-cmd1 bar command\n"
 }
 
 function double_cmd2_baz_command() {
     #
     # This is a double command.
-    # It takes no parameters
+    # It takes no parameters.
     # It is part of double-cmd2 subgroup of commands.
     # arg-doc-end;
 
-    printf "Double command: double-cmd2 baz\n"
+    printf "double-cmd2 baz command\n"
 }
 
 function double_cmd2_qux_command() {
@@ -105,7 +105,7 @@ function double_cmd2_qux_command() {
     # It is part of double-cmd2 subgroup of commands.
     # arg-doc-end;
 
-    printf "Double command: double-cmd2 qux\n"
+    printf "double-cmd2 qux command\n"
 }
 
 # COMMAND TREE
