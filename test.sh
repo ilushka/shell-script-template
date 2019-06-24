@@ -10,7 +10,6 @@ function run_test() {
 
 run_test "./build.sh" "Usage: build.sh <single|double-cmd1|double-cmd2|help>"
 run_test "./build.sh help" "Usage: build.sh <single|double-cmd1|double-cmd2|help>"
-run_test "./build.sh" "Usage: build.sh <single|double-cmd1|double-cmd2|help>"
 
 run_test "./build.sh help single" "Usage: build.sh single <a> <b> <c>
 This is a single command.
